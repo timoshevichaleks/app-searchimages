@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   api: 'https://www.flickr.com/services/rest/?method=flickr.photos.search&',
-  key: '3dc048ec502c7ab65ec70b90d2442d73',
-  secret: '40c50bde815bc6ac'
+  key: '3dc048ec502c7ab65ec70b90d2442d73'
+  // secret: '40c50bde815bc6ac'
 };
 
 /*

@@ -3,10 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImagesModule } from "./images/images.module";
 import { HttpClientModule } from "@angular/common/http";
-import { NgxPaginationModule } from "ngx-pagination";
+import { MaterialModule } from "./material/material.module";
 
 @NgModule({
   declarations: [
@@ -15,10 +14,9 @@ import { NgxPaginationModule } from "ngx-pagination";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     ImagesModule,
     HttpClientModule,
-    NgxPaginationModule
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

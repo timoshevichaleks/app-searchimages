@@ -6,19 +6,18 @@
     </mat-form-field>
   </div>
 
-  <pagination-controls (pageChange)="page = $event">
-  </pagination-controls>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
 
   <div class="photos">
     <div class="photo" *ngFor="let photo of photos | paginate: {
-    itemsPerPage: 6,
-    currentPage: page,
-    totalItems: totalLength
+      itemsPerPage: 6,
+      currentPage: page,
+      totalItems: totalLength
     }">
 
       <mat-card class="example-card">
-        <img mat-card-image class="photo__image" src="{{photo.url}}_m.jpg" alt="{{photo.title}}"
-             title="{{photo.title}}">
+        <img mat-card-image class="photo__image" [src]="photo.url" [alt]="photo.title"
+             [title]="photo.title">
         <mat-card-content>
           <h5 class="photo__title">{{photo.title}}</h5>
         </mat-card-content>

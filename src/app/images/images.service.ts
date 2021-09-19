@@ -1,30 +1,33 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
-import { Photo } from "./photo";
-import { PhotosOutput } from "./photosoutput";
+import { PhotoResponse } from "./models/photo-response";
+import { Observable } from "rxjs";
+import { PhotoPagination } from "./models/photo-pagination";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImagesService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getImages(keyword: string): any {
-    const params = `api_key=${environment.key}&text=${keyword}&format=json&nojsoncallback=1`;
+  getImages(keyword: string): Observable<PhotoPagination[]> {
+    const params = new HttpParams()
+      .set('api_key', `${environment.key}`)
+      .set('text', keyword)
+      .set('format', 'json')
+      .set('nojsoncallback', '1')
+      .set('per_page', '500')
 
-    return this.http.get<any>(environment.api + params).pipe(map((res) => {
-      const urlArr: PhotosOutput[] = [];
-      res.photos.photo.forEach((ph: Photo) => {
-        const photoObj: any = {
-          url: `https://live.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}_m.jpg`,
-          title: ph.title
-        };
-        urlArr.push(photoObj);
+    return this.http.get<any>(environment.api, {params}).pipe(map((res) => {
+      return res.photos.photo.map((ph: PhotoResponse) => {
+        const url = `https://live.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}.jpg`;
+        console.log({...ph, url})
+        return {...ph, url};
       });
-      return urlArr;
     }))
   }
 
