@@ -1,9 +1,11 @@
+import { PhotoResponse } from "./photo-response";
+
 export interface PhotoPagination {
   photos: {
-    page: string,
-    pages: string,
-    perpage: string,
-    photo: string,
-    total: string
+    page: number,
+    pages: number,
+    perpage: number,
+    photo: PhotoResponse[],
+    total: number
   }
 }

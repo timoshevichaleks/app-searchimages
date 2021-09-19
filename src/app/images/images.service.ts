@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { PhotoResponse } from "./models/photo-response";
 import { Observable } from "rxjs";
 import { PhotoPagination } from "./models/photo-pagination";
+import { Photo } from "./models/photo";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ImagesService {
   constructor(private http: HttpClient) {
   }
 
-  getImages(keyword: string): Observable<PhotoPagination[]> {
+  getImages(keyword: string): Observable<Photo[]> {
     const params = new HttpParams()
       .set('api_key', `${environment.key}`)
       .set('text', keyword)
@@ -22,11 +23,12 @@ export class ImagesService {
       .set('nojsoncallback', '1')
       .set('per_page', '500')
 
-    return this.http.get<any>(environment.api, {params}).pipe(map((res) => {
+    return this.http.get<PhotoPagination>(environment.api, {params}).pipe(
+      map((res) => {
       return res.photos.photo.map((ph: PhotoResponse) => {
         const url = `https://live.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}.jpg`;
-        console.log({...ph, url})
-        return {...ph, url};
+        const title = ph.title;
+        return {...ph, url, title};
       });
     }))
   }

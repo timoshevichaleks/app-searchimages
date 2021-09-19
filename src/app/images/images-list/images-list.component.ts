@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagesService } from "../images.service";
 import { delay } from "rxjs/operators";
-import { PhotoPagination } from "../models/photo-pagination";
+import { Photo } from "../models/photo";
 
 @Component({
   selector: 'app-images-list',
@@ -10,7 +10,7 @@ import { PhotoPagination } from "../models/photo-pagination";
 })
 export class ImagesListComponent implements OnInit {
 
-  photos: Array<any> = [];
+  photos: Photo[] = [];
   keyword: string;
   totalLength: number;
   page: number = 1;
@@ -27,7 +27,7 @@ export class ImagesListComponent implements OnInit {
     if (this.keyword && this.keyword.length > 2 && this.keyword != this.lastKeyword) {
       this.imagesService.getImages(this.keyword)
         .pipe(delay(2000))
-        .subscribe((res: PhotoPagination[]) => {
+        .subscribe((res: Photo[]) => {
           this.photos = res;
           this.totalLength = res.length;
         })
