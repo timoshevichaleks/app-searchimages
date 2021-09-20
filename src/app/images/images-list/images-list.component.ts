@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagesService } from "../images.service";
-import { delay } from "rxjs/operators";
 import { Photo } from "../models/photo";
+import { FormControl } from "@angular/forms";
+import { Observable } from "rxjs";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 
 @Component({
   selector: 'app-images-list',
@@ -10,29 +12,20 @@ import { Photo } from "../models/photo";
 })
 export class ImagesListComponent implements OnInit {
 
-  photos: Photo[] = [];
-  keyword: string;
+  photos$: Observable<Photo[]>;
   totalLength: number;
   page: number = 1;
-  lastKeyword: string;
+  searchControl: FormControl = new FormControl();
 
   constructor(private imagesService: ImagesService) {
   }
 
   ngOnInit(): void {
+    this.photos$ = this.searchControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((value: string) => this.imagesService.getImages(value))
+      )
   }
-
-  search(event: any) {
-    this.keyword = event.target.value.toLowerCase().trim();
-    if (this.keyword && this.keyword.length > 2 && this.keyword != this.lastKeyword) {
-      this.imagesService.getImages(this.keyword)
-        .pipe(delay(2000))
-        .subscribe((res: Photo[]) => {
-          this.photos = res;
-          this.totalLength = res.length;
-        })
-      this.lastKeyword = this.keyword;
-    }
-  }
-
 }

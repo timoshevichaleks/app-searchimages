@@ -15,7 +15,7 @@ export class ImagesService {
   constructor(private http: HttpClient) {
   }
 
-  getImages(keyword: string): Observable<Photo[]> {
+	getImages(keyword: string): Observable<Photo[]> {
     const params = new HttpParams()
       .set('api_key', `${environment.key}`)
       .set('text', keyword)
@@ -24,7 +24,7 @@ export class ImagesService {
       .set('per_page', '500')
 
     return this.http.get<PhotoPagination>(environment.api, {params}).pipe(
-      map((res) => {
+      map((res: PhotoPagination) => {
       return res.photos.photo.map((ph: PhotoResponse) => {
         const url = `https://live.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}.jpg`;
         const title = ph.title;

@@ -8,6 +8,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatCardModule } from "@angular/material/card";
 import { NgxPaginationModule } from "ngx-pagination";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 
 
@@ -26,7 +27,9 @@ import { NgxPaginationModule } from "ngx-pagination";
     MatInputModule,
     MatPaginatorModule,
     MatCardModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class ImagesModule { }
