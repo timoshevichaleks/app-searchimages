@@ -9,7 +9,8 @@
   </div>
 
   <mat-paginator [length]="length | async"
-                 [pageSize]="12"
+                 [pageSize]="pageSize | async"
+                 [pageSizeOptions]="[6, 12, 24, 99]"
                  aria-label="Select page"
                  (page)="onPageChanged($event)"
                   >
@@ -25,7 +26,8 @@
           <h5 class="photo__title">{{photo.title}}</h5>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary">Bookmark it!</button>
+          <button mat-raised-button color="primary">Bookmark
+            it!</button>
         </mat-card-actions>
       </mat-card>
 

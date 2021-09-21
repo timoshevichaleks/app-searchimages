@@ -16,6 +16,7 @@ export class ImagesListComponent implements OnInit {
   photos$: Observable<Photo[]>;
   length: Observable<number>;
   page = new BehaviorSubject<number>(1);
+  pageSize = new BehaviorSubject<number>(12)
   searchControl: FormControl = new FormControl();
 
   constructor(private imagesService: ImagesService) {
@@ -26,11 +27,11 @@ export class ImagesListComponent implements OnInit {
       .pipe(
         debounceTime(500),
         distinctUntilChanged()
-      )])
+      ), this.pageSize])
       .pipe(
-        switchMap(([pageNumber, searchValue]): Observable<Photo[]> => {
+        switchMap(([pageNumber, searchValue, pageSize]): Observable<Photo[]> => {
           if (searchValue.length >= 1 && searchValue.trim()) {
-            return this.imagesService.getImages(searchValue, pageNumber)
+            return this.imagesService.getImages(searchValue, pageNumber, pageSize)
           } else {
             return of([])
           }
@@ -42,5 +43,6 @@ export class ImagesListComponent implements OnInit {
 
   onPageChanged(event: PageEvent) {
     this.page.next(event.pageIndex + 1);
+    this.pageSize.next(event.pageSize);
   }
 }

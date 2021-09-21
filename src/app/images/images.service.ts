@@ -12,18 +12,18 @@ import { Photo } from "./models/photo";
 })
 export class ImagesService {
 
-  totalPhoto = new BehaviorSubject<number>(0)
+  totalPhoto = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {
   }
 
-  getImages(keyword: string, pageNumber: number): Observable<Photo[]> {
+  getImages(keyword: string, pageNumber: number, pageSize: number): Observable<Photo[]> {
     const params = new HttpParams()
       .set('api_key', `${environment.key}`)
       .set('text', keyword)
       .set('format', 'json')
       .set('nojsoncallback', '1')
-      .set('per_page', '12')
+      .set('per_page', pageSize)
       .set('page', pageNumber)
 
     return this.http.get<PhotoPagination>(environment.api, {params}).pipe(
@@ -36,5 +36,4 @@ export class ImagesService {
         });
       }))
   }
-
 }
