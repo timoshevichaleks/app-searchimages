@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ImagesService } from "../images.service";
 import { Photo } from "../models/photo";
 import { FormControl } from "@angular/forms";
-import { BehaviorSubject, combineLatest, Observable, pipe } from "rxjs";
-import { debounceTime, distinctUntilChanged, switchMap, tap } from "rxjs/operators";
+import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { PageEvent } from "@angular/material/paginator";
 
 @Component({
@@ -14,10 +14,8 @@ import { PageEvent } from "@angular/material/paginator";
 export class ImagesListComponent implements OnInit {
 
   photos$: Observable<Photo[]>;
-  length: number = 500;
-  pageIndex: number;
+  length: Observable<number>;
   page = new BehaviorSubject<number>(1);
-  pageEvent: PageEvent;
   searchControl: FormControl = new FormControl();
 
   constructor(private imagesService: ImagesService) {
@@ -30,8 +28,16 @@ export class ImagesListComponent implements OnInit {
         distinctUntilChanged()
       )])
       .pipe(
-        switchMap(([pageNumber, searchValue]) => this.imagesService.getImages(searchValue, pageNumber))
+        switchMap(([pageNumber, searchValue]): Observable<Photo[]> => {
+          if (searchValue.length >= 1 && searchValue.trim()) {
+            return this.imagesService.getImages(searchValue, pageNumber)
+          } else {
+            return of([])
+          }
+        })
       )
+
+    this.length = this.imagesService.totalPhoto;
   }
 
   onPageChanged(event: PageEvent) {

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { PhotoResponse } from "./models/photo-response";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { PhotoPagination } from "./models/photo-pagination";
 import { Photo } from "./models/photo";
 
@@ -12,7 +12,7 @@ import { Photo } from "./models/photo";
 })
 export class ImagesService {
 
-  // total: number;
+  totalPhoto = new BehaviorSubject<number>(0)
 
   constructor(private http: HttpClient) {
   }
@@ -28,7 +28,7 @@ export class ImagesService {
 
     return this.http.get<PhotoPagination>(environment.api, {params}).pipe(
       map((res: PhotoPagination) => {
-        // this.total = res.photos.total;
+        this.totalPhoto.next(res.photos.total);
         return res.photos.photo.map((ph: PhotoResponse) => {
           const url = `https://live.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}.jpg`;
           const title = ph.title;

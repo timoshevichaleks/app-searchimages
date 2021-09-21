@@ -8,7 +8,7 @@
     </mat-form-field>
   </div>
 
-  <mat-paginator [length]="length"
+  <mat-paginator [length]="length | async"
                  [pageSize]="12"
                  aria-label="Select page"
                  (page)="onPageChanged($event)"
