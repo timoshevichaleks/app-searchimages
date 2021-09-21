@@ -8,26 +8,26 @@
     </mat-form-field>
   </div>
 
-  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  <mat-paginator [length]="length"
+                 [pageSize]="12"
+                 aria-label="Select page"
+                 (page)="onPageChanged($event)"
+                  >
+  </mat-paginator>
 
   <div class="photos">
     <div class="photo" *ngFor="let photo of photos$ | async">
-      <!--    | paginate: {-->
-      <!--      itemsPerPage: 6,-->
-      <!--      currentPage: page,-->
-      <!--      totalItems: totalLength-->
-      <!--      }-->
 
-        <mat-card class="example-card">
-          <img mat-card-image class="photo__image" [src]="photo.url" [alt]="photo.title"
-               [title]="photo.title">
-          <mat-card-content>
-            <h5 class="photo__title">{{photo.title}}</h5>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-raised-button color="primary">Bookmark it!</button>
-          </mat-card-actions>
-        </mat-card>
+      <mat-card class="example-card">
+        <img mat-card-image class="photo__image" [src]="photo.url" [alt]="photo.title"
+             [title]="photo.title">
+        <mat-card-content>
+          <h5 class="photo__title">{{photo.title}}</h5>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">Bookmark it!</button>
+        </mat-card-actions>
+      </mat-card>
 
     </div>
   </div>

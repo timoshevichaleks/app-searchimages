@@ -12,25 +12,29 @@ import { Photo } from "./models/photo";
 })
 export class ImagesService {
 
+  // total: number;
+
   constructor(private http: HttpClient) {
   }
 
-	getImages(keyword: string): Observable<Photo[]> {
+  getImages(keyword: string, pageNumber: number): Observable<Photo[]> {
     const params = new HttpParams()
       .set('api_key', `${environment.key}`)
       .set('text', keyword)
       .set('format', 'json')
       .set('nojsoncallback', '1')
-      .set('per_page', '500')
+      .set('per_page', '12')
+      .set('page', pageNumber)
 
     return this.http.get<PhotoPagination>(environment.api, {params}).pipe(
       map((res: PhotoPagination) => {
-      return res.photos.photo.map((ph: PhotoResponse) => {
-        const url = `https://live.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}.jpg`;
-        const title = ph.title;
-        return {...ph, url, title};
-      });
-    }))
+        // this.total = res.photos.total;
+        return res.photos.photo.map((ph: PhotoResponse) => {
+          const url = `https://live.staticflickr.com/${ph.server}/${ph.id}_${ph.secret}.jpg`;
+          const title = ph.title;
+          return {...ph, url, title};
+        });
+      }))
   }
 
 }
