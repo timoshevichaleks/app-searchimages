@@ -1,0 +1,36 @@
+<div>
+  <div class="search-photos">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Search images</mat-label>
+      <input type="search" matInput
+             placeholder="Search images"
+             [formControl]="searchControl">
+    </mat-form-field>
+  </div>
+
+  <mat-paginator [length]="length | async"
+                 [pageSize]="pageSize | async"
+                 [pageSizeOptions]="[6, 12, 24, 99]"
+                 aria-label="Select page"
+                 (page)="onPageChanged($event)"
+                  >
+  </mat-paginator>
+
+  <div class="photos">
+    <div class="photo" *ngFor="let photo of photos$ | async">
+
+      <mat-card class="example-card">
+        <img mat-card-image class="photo__image" [src]="photo.url" [alt]="photo.title"
+             [title]="photo.title">
+        <mat-card-content>
+          <h5 class="photo__title">{{photo.title}}</h5>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">Bookmark
+            it!</button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+  </div>
+</div>
