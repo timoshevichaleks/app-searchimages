@@ -13,7 +13,6 @@ import { Photo } from "./models/photo";
 export class ImagesService {
 
   totalPhoto = new BehaviorSubject<number>(0);
-  photos: Photo[] = [];
 
   constructor(private http: HttpClient) {
   }
@@ -38,18 +37,15 @@ export class ImagesService {
       }))
   }
 
-  saveImages(photo: Photo): void {
-    this.http.post<Photo>(`${environment.dataBase}.json`, photo).subscribe(
-      (res: Photo) => {
-        this.photos.push({...{key: res.title}, ...photo})
-      }
-    )
+  saveImages(photo: Photo): Observable<Photo> {
+    return this.http.post<Photo>(`${environment.dataBase}.json`, photo);
   }
 
-  delete(photo: Photo): void {
-    this.http.delete<void>(`${environment.dataBase}/${photo.key}.json`).subscribe(
-      () => {
-        this.photos.splice(this.photos.indexOf(photo), 1)
-      })
+  getSaveImages(): Observable<Photo[]> {
+    return this.http.get<Photo[]>(`${environment.dataBase}.json`);
+  }
+
+  delete(photo: Photo): Observable<void> {
+    return this.http.delete<void>(`${environment.dataBase}/${photo.key}.json`);
   }
 }

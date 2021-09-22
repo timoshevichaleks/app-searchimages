@@ -1,6 +1,6 @@
-<div class="photos" *ngIf="photos">
+<div class="photos">
 
-  <div class="photo" *ngFor="let photo of photos">
+  <div class="photo" *ngFor="let photo of photos$ | async">
     <mat-card class="example-card">
       <img mat-card-image class="photo__image" [src]="photo.url" [alt]="photo.title"
            [title]="photo.title">

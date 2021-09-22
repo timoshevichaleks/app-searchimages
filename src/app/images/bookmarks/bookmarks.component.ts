@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagesService } from "../images.service";
 import { Photo } from "../models/photo";
+import { Observable } from "rxjs";
+import { first, map } from "rxjs/operators";
 
 @Component({
   selector: 'app-bookmarks',
@@ -9,16 +11,36 @@ import { Photo } from "../models/photo";
 })
 export class BookmarksComponent implements OnInit {
 
-  photos: Photo[];
+  photos$: Observable<Photo[]>
 
-  constructor(private imagesService: ImagesService) { }
+  constructor(public imagesService: ImagesService) {
+  }
 
   ngOnInit(): void {
-    this.photos = this.imagesService.photos;
+
+    this.photos$ = this.imagesService.getSaveImages()
+      .pipe(map((res: any) => {
+        return Object.keys(res).map(key => {
+          return {key, ...res[key]}
+        })
+      }))
+
   }
 
   deletePhoto(photo: Photo): void {
-    this.imagesService.delete(photo);
+    this.imagesService.delete(photo).pipe(first()).subscribe(
+      () => {
+        this.photos$ = this.imagesService.getSaveImages()
+          .pipe(
+            map((res: any) => {
+                return Object.keys(res).map(key => {
+                  return {key, ...res[key]}
+                })
+              }
+            )
+          )
+      }
+    )
   }
 
 }
