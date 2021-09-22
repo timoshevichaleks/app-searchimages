@@ -26,7 +26,7 @@
           <h5 class="photo__title">{{photo.title}}</h5>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary">Bookmark
+          <button mat-raised-button (click)="savePhoto(photo)" color="primary">Bookmark
             it!</button>
         </mat-card-actions>
       </mat-card>

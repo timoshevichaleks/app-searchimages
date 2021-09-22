@@ -45,4 +45,8 @@ export class ImagesListComponent implements OnInit {
     this.page.next(event.pageIndex + 1);
     this.pageSize.next(event.pageSize);
   }
+
+  savePhoto(photo: Photo): void {
+    this.imagesService.saveImages(photo)
+  }
 }
