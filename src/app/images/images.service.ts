@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { environment } from "../../environments/environment";
+import { environment } from "../../environments/environment.prod";
 import { map } from "rxjs/operators";
 import { PhotoResponse } from "./models/photo-response";
 import { BehaviorSubject, Observable } from "rxjs";
