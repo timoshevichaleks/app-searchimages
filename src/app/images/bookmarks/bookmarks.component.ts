@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagesService } from "../images.service";
 import { Photo } from "../models/photo";
+import { first, switchMap } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { first, map } from "rxjs/operators";
 
 @Component({
   selector: 'app-bookmarks',
@@ -11,36 +11,40 @@ import { first, map } from "rxjs/operators";
 })
 export class BookmarksComponent implements OnInit {
 
-  photos$: Observable<Photo[]>
+  photos: Photo[];
 
-  constructor(public imagesService: ImagesService) {
+  constructor(private imagesService: ImagesService) {
   }
 
   ngOnInit(): void {
+    this.imagesService.getSaveImages()
+      .pipe(first())
+      .subscribe(
+        (res: { [key: string]: Photo }) => {
+          this.setPhotos(res);
+        }
+      )
+  }
 
-    this.photos$ = this.imagesService.getSaveImages()
-      .pipe(map((res: any) => {
-        return Object.keys(res).map(key => {
-          return {key, ...res[key]}
-        })
-      }))
-
+  private setPhotos(result: { [key: string]: Photo }): void {
+    result === null ? this.photos = [] : this.photos = Object.keys(result).map(key => {
+      return {key, ...result[key]}
+    })
   }
 
   deletePhoto(photo: Photo): void {
-    this.imagesService.delete(photo).pipe(first()).subscribe(
-      () => {
-        this.photos$ = this.imagesService.getSaveImages()
-          .pipe(
-            map((res: any) => {
-                return Object.keys(res).map(key => {
-                  return {key, ...res[key]}
-                })
-              }
-            )
-          )
-      }
-    )
+    this.imagesService.delete(photo)
+      .pipe(
+        switchMap((): Observable<{ [key: string]: Photo }> => {
+          return this.imagesService.getSaveImages()
+        }),
+        first()
+      )
+      .subscribe(
+        (res: { [key: string]: Photo }) => {
+          this.setPhotos(res)
+        }
+      )
   }
 
 }

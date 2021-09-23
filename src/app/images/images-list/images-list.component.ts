@@ -31,8 +31,7 @@ export class ImagesListComponent implements OnInit {
       .pipe(
         switchMap(([pageNumber, searchValue, pageSize]): Observable<Photo[]> => {
           return searchValue.trim().length >= 1 ?
-            this.imagesService.getImages(searchValue, pageNumber, pageSize)
-            : of([])
+            this.imagesService.getImages(searchValue, pageNumber, pageSize) : of([])
         })
       )
 
