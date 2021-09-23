@@ -27,9 +27,7 @@ export class BookmarksComponent implements OnInit {
   }
 
   private setPhotos(result: { [key: string]: Photo }): void {
-    result === null ? this.photos = [] : this.photos = Object.keys(result).map(key => {
-      return {key, ...result[key]}
-    })
+    this.photos = result ? Object.keys(result).map(key => {return {key, ...result[key]}}) : [];
   }
 
   deletePhoto(photo: Photo): void {
