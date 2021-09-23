@@ -1,1 +1,16 @@
-<p>bookmarks works!</p>
+<div class="photos" *ngIf="photos">
+
+  <div class="photo" *ngFor="let photo of photos">
+    <mat-card class="example-card">
+      <img mat-card-image class="photo__image" [src]="photo.url" [alt]="photo.title"
+           [title]="photo.title">
+      <mat-card-content>
+        <h5 class="photo__title" [title]="photo.title">{{photo.title | slice: 0 : 20}}...</h5>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="deletePhoto(photo)" color="primary">Delete Photo</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+</div>

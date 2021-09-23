@@ -36,4 +36,16 @@ export class ImagesService {
         });
       }))
   }
+
+  saveImages(photo: Photo): Observable<Photo> {
+    return this.http.post<Photo>(`${environment.dataBase}.json`, photo);
+  }
+
+  getSaveImages(): Observable<{ [key: string]: Photo }> {
+    return this.http.get<{ [key: string]: Photo }>(`${environment.dataBase}.json`);
+  }
+
+  delete(photo: Photo): Observable<void> {
+    return this.http.delete<void>(`${environment.dataBase}/${photo.key}.json`)
+  }
 }

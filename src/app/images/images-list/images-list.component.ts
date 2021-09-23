@@ -3,7 +3,7 @@ import { ImagesService } from "../images.service";
 import { Photo } from "../models/photo";
 import { FormControl } from "@angular/forms";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
-import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, first, switchMap } from "rxjs/operators";
 import { PageEvent } from "@angular/material/paginator";
 
 @Component({
@@ -30,11 +30,8 @@ export class ImagesListComponent implements OnInit {
       ), this.pageSize])
       .pipe(
         switchMap(([pageNumber, searchValue, pageSize]): Observable<Photo[]> => {
-          if (searchValue.length >= 1 && searchValue.trim()) {
-            return this.imagesService.getImages(searchValue, pageNumber, pageSize)
-          } else {
-            return of([])
-          }
+          return searchValue.trim().length >= 1 ?
+            this.imagesService.getImages(searchValue, pageNumber, pageSize) : of([])
         })
       )
 
@@ -45,4 +42,9 @@ export class ImagesListComponent implements OnInit {
     this.page.next(event.pageIndex + 1);
     this.pageSize.next(event.pageSize);
   }
+
+  savePhoto(photo: Photo): void {
+    this.imagesService.saveImages(photo).pipe(first()).subscribe();
+  }
+
 }
