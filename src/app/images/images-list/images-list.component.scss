@@ -1,12 +1,3 @@
-.search-photos {
-  text-align: center;
-
-  input {
-    width: 300px;
-    padding: 12px 8px;
-  }
-}
-
 .photos {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -28,5 +19,10 @@
 }
 
 .example-full-width {
-  width: 100% ;
+  width: 100%;
 }
+
+.mat-paginator {
+  background-color: #fafafa;
+}
+

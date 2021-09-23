@@ -1,31 +1,31 @@
 <header class="header">
   <mat-toolbar class="header-container">
-    <span>Image Finder</span>
-    <span class="example-spacer"></span>
-    <a class="material-icons">account_circle</a>
+    <mat-toolbar-row>
+      <span>Image Finder</span>
+      <span class="example-spacer"></span>
+      <a class="material-icons">account_circle</a>
+    </mat-toolbar-row>
   </mat-toolbar>
 </header>
 
-<section class="main">
-  <div class="main-container">
+<mat-drawer-container class="example-container">
 
-    <nav class="main-navbar">
-      <ul class="main-navbar__list">
-        <li class="main-navbar__item">
-          <a routerLink="/images" class="material-icons" routerLinkActive="active">wb_cloudy</a>
-        </li>
-        <li class="main-navbar__item">
-          <a routerLink="/bookmarks" class="material-icons" routerLinkActive="active">bookmark</a>
-        </li>
-      </ul>
-    </nav>
+  <mat-drawer mode="side" opened>
+    <mat-list>
+      <mat-list-item>
+        <a routerLink="/images" class="material-icons" routerLinkActive="active">wb_cloudy</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a routerLink="/bookmarks" class="material-icons" routerLinkActive="active">bookmark</a>
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
 
-    <div class="main-content">
-      <router-outlet></router-outlet>
-    </div>
+  <mat-drawer-content class="main-content">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
 
-  </div>
-</section>
+</mat-drawer-container>
 
 <footer class="footer">
   <span>Copyrights</span>
