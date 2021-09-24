@@ -5,7 +5,7 @@
       <img mat-card-image class="photo__image" [src]="photo.url" [alt]="photo.title"
            [title]="photo.title">
       <mat-card-content>
-        <h5 class="photo__title" [title]="photo.title">{{photo.title | slice: 0 : 20}}...</h5>
+        <h5 class="photo__title" [title]="photo.title">{{photo.title}}</h5>
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button (click)="deletePhoto(photo)" color="primary">Delete Photo</button>
