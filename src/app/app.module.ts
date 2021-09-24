@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { ImagesModule } from "./images/images.module";
 import { HttpClientModule } from "@angular/common/http";
 import { MaterialModule } from "./material/material.module";
-import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatListModule } from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -19,8 +17,6 @@ import { MatListModule } from "@angular/material/list";
     ImagesModule,
     HttpClientModule,
     MaterialModule,
-    MatSidenavModule,
-    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
